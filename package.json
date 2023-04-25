@@ -1,0 +1,26 @@
+{
+  "name": "home-qa-task",
+  "version": "1.0.0",
+  "description": "test_task",
+  "main": "index.js",
+  "scripts": {
+    "test": "cypress open"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rojakunala/Home_Task.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rojakunala/Home_Task/issues"
+  },
+  "homepage": "https://github.com/rojakunala/Home_Task#readme",
+  "devDependencies": {
+    "@cypress/xpath": "^2.0.3",
+    "cypress": "^12.10.0"
+  },
+  "dependencies": {
+    "@badeball/cypress-cucumber-preprocessor": "^16.0.3"
+  }
+}

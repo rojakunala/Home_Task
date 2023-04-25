@@ -1,0 +1,10 @@
+DEFECT ID : 01
+Steps to reproduce:
+1. Go to your playground page
+2. clicks on all icons in the outer perimeter of Grid expect any one is missing
+3. user is able to see the dialog box 
+
+Actual Result :  user is able to see the dialog box 
+Expected Result : user should not able to see the dialog box 
+
+Defect Screenshot path : Defect1-Screenshot.png
