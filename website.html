@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<title>RBI Tech Skill Task</title>
+<meta author="Giedrius Makrickas @ RBI" />
+<meta copyright="RBI" />
+<meta charset="utf-8" />
+
+<head>
+  <style>
+    body {
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+    }
+
+    .main {
+      width: 750px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      color: #ff1b3a;
+    }
+
+    p {
+      margin-top: 30px;
+    }
+
+    .row {
+      margin-left: 10%;
+    }
+
+    .icon {
+      float: left;
+      width: 52px;
+      height: 57px;
+      border: 1px solid #CEDCEA;
+      padding: 10px;
+      color: rgb(199, 199, 199);
+    }
+
+    [active] {
+      color: #ff1b3a;
+    }
+  </style>
+
+  <script>
+    const rowDiv = `<div class="row"></div>`;
+    const iconDiv = `<div class="icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 1510 993"
+          fill="currentColor">
+          <title>RBI logo</title>
+              <path d="m0 434.8l207.4-119.3v659.3h-207.4zm1215.7 217.7c0 187.4-152 340-338.6 340-184.5 0-336.5-152.6-336.5-340 0 0 0 0 0-529.7 0 0 0 0 207.4-122.6 0 0 0 0 0 337.7 41.5-16.2 85.3-25.4 129.1-25.4 186.6 0 338.6 152.6 338.6 340zm-209.6 0c0-70.4-57.2-127.2-127.9-127.2-70.8 0-128 56.8-128 127.2 0 70.3 57.2 127.2 128 127.2 70.7 0 127.9-56.9 127.9-127.2zm-640.9-85.6c-70.2 0-126.9-56.7-126.9-126.8 0-70.1 56.7-126.8 126.9-126.8 70.1 0 126.8 56.7 126.8 126.8 0 70.1-56.7 126.8-126.8 126.8zm910.1-132.1l209.6-119.3v659.4h-209.6zm105.9-119.3c-70.7 0-128-56.7-128-126.8 0-70.2 57.3-126.8 128-126.8 70.8 0 128 56.6 128 126.8 0 70.1-57.2 126.8-128 126.8z"/>
+        </svg>
+      </div>`;
+    const endDiv = `<div style="clear:both;"></div>`;
+
+    const initExample = () => {
+      document.querySelector(".example").innerHTML = rowDiv + rowDiv + rowDiv;
+      document.querySelectorAll(".example .row").forEach(el => el.innerHTML = iconDiv + iconDiv + iconDiv + endDiv);
+      document.querySelectorAll(".example .row .icon").forEach((el, i) => { if (i !== 4) el.setAttribute("active", "true") })
+    };
+
+    const w = () => {
+      const queryMatchForWidth = window.location.href.match(/(?:[?&]width=)([3-9])/);
+      return queryMatchForWidth ? queryMatchForWidth[1] : 4;
+    }
+
+    const h = () => {
+      const queryMatchForHeight = window.location.href.match(/(?:[?&]height=)([3-9])/);
+      return queryMatchForHeight ? queryMatchForHeight[1] : 4;
+    }
+
+    const prepareMainGrid = () => {
+      const mainGrid = document.querySelector(".mainGrid");
+      for (i = 0; i < h(); i++) mainGrid.innerHTML += rowDiv;
+      document.querySelectorAll(".mainGrid .row").forEach(row => {
+        for (i = 0; i < w(); i++) row.innerHTML += iconDiv;
+        row.innerHTML += endDiv;
+      });
+      document.querySelectorAll(".mainGrid .row .icon")
+        .forEach(icon => icon.setAttribute("onclick", "activateCell(this)"));
+    }
+
+    const init = () => {
+      initExample();
+      prepareMainGrid();
+      document.querySelector(".easyMode").checked = false; 
+    };
+
+    const activateCell = el => {
+      if (!el.getAttribute("active"))
+        el.setAttribute("active", "true")
+      else el.removeAttribute("active");
+      if (Array.from(document.querySelectorAll(".mainGrid .row .icon")).every((el,i)=>((i<w()||i%w()===0||i%w()===w()-1||i>w()*(h()-1))&&el.getAttribute("active"))||(!(i<w()||i%w()===0||i%w()===w()-1||i>w()*(h()-1))&&!el.getAttribute("active")))) {const s=parseInt(prompt("Done! Ready for the next try? Give me a size [3-9]:",5));if(s<3||s>9)alert('Not a good size!');window.location.href=window.location.href.split('?')[0]+`?width=${s}&height=${s}`}
+    };
+
+    const enableEasyMode = el => {
+      const icons = document.querySelectorAll(".mainGrid .row .icon");
+      if (el.checked)
+        icons.forEach((icon, i) => icon.setAttribute("id", `${Math.ceil((i + 1) / w())}${i % w() + 1}`));
+      else icons.forEach(icon => icon.removeAttribute("id"));
+    }
+  </script>
+</head>
+
+<body onload="init()">
+
+  <div class="main">
+
+    <h1>Your playground</h1>
+
+    <!-- Control the size of the grid by adding query parameters: ?width=6&height=5 -->
+
+    <div class="mainGrid"></div>
+
+
+    <h2>Task</h2>
+    <p>1. Define test cases (ideally using Gherkin language) for the application under test according to the requirements.</p>
+    <p>2. Report defects (bugs) if you find any.</p>
+	  <p>3. What else would you test? Please define additional tests.</p>
+	  <p>4. What tests would you automate? Automate tests using any JS test automation tool (ideally Cypress)</p>
+
+    <h2>Requirements of the application under test</h2>
+    <p>1. After the user clicks all icons in the outer perimeter, the dialog should appear.</p>
+    <p>The result might look like this depending on the size of the grid:</p>
+    <div class="example"></div>
+    <p>None of the cells on the inside should be clicked like in this example.</p>
+
+    <p>2. In the dialog the user should be able to define size of the grid.</p>
+	  <p>3. After the user defines the size of the grid, the grid should have appropriate number of columns and rows.</p>
+
+    <b>This task needs to be completed only by the candidate himself</b>
+
+    <h2>References that may help</h2>
+    <p>Software Testing fundamentals: <a href=https://www.istqb.org/downloads/send/2-foundation-level-documents/281-istqb-ctfl-syllabus-2018-v3-1.html>ISTQB Foundation Level Syllabus</a></p>
+    <p>Test cases: <a href=https://selleo.com/blog/how-to-start-writing-gherkin-test-scenarios>How to Write Test Cases: Sample Template with Examples</a></p>
+    <p>Test cases: <a href=https://www.guru99.com/gherkin-test-cucumber.html>How to Write Test Cases Using Gherkin</a></p>
+	<p>Test automation: <a href=https://docs.cypress.io/guides/end-to-end-testing/writing-your-first-end-to-end-test>Cypress Test Automation Docs</a></p>
+    
+  <p><font size="1">Disclaimer: The information contained in this communication from the sender is confidential. It is intended solely for use by the recipient, no copying and sharing is allowed. If you are not the recipient, you are hereby notified that any disclosure, copying, distribution or taking action in relation of the contents of this information is strictly prohibited and may be unlawful.</font>
+    </p>
+
+  </div>
+</body>
+
+</html>
